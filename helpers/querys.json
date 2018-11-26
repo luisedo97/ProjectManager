@@ -1,0 +1,15 @@
+{
+    "session": {
+        "get": "SELECT * FROM USERS WHERE users_id = $1 AND users_password = $2",
+        "insert": "INSERT INTO USERS (users_username, users_password, users_name, type_users_id) VALUES ($1, $2, $3, 2)"
+    },
+    "projectcrud": {
+
+    },
+    "itemcrud": {
+
+    },
+    "itemcontcrud": {
+
+    }
+}
