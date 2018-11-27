@@ -14,11 +14,17 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use('/', require('./controllers'));
 app.get('/', function(req, res) {
     res.redirect('views/index.html');
 });
-
+passport.use(require('./helpers/localStrategy'));
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+passport.deserializeUser(function(user, done) {
+    done(null, user);
+});
 app.listen(config.port, function() {
     console.log('Example app listening on port 3001!');
 });
