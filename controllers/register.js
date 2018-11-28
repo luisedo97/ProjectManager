@@ -1,38 +1,19 @@
 const express = require('express');
-const auth = require('./../middlewares/isAuth')
 let router = express.Router();
-const sql = require('./../helpers/querys.json');
 let bcrypt = require('bcryptjs');
-const db = require('./../helpers/db');
+const User = require('./../helpers/users');
 
-router.post('/createUser', auth.isLogged, (req, res) => {
-    db.connect().then((obj) => {
-        obj.none(sql.session.insert, [req.body.username,
+
+router.post('/createUser', (req, res) => {
+    User.registerUser(req.body.username,
             bcrypt.hashSync(req.body.password, 10),
-            req.body.name
-        ]).then(() => {
-            res.send({
-                message: "OK",
-                status: 200
-            });
-            obj.done();
-        }).catch((error) => {
-            console.log(error);
-            res.send({
-                error: error,
-                msg: 'Not Created',
-                status: 500
-            });
-            obj.done();
-        });
-    }).catch((error) => {
-        console.log(error);
-        res.send({
-            error: error,
-            msg: 'not Created',
-            status: 500
-        });
-    });
+            req.body.name)
+        .then((data) => {
+            res.send(data);
+        })
+        .catch((err) => {
+            res.send(err);
+        })
 });
 
 module.exports = router;
