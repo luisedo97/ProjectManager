@@ -29,7 +29,8 @@ router.get('/getListProject', auth, (req, res) => {
 });
 
 router.put('/editProject', auth, (req, res) => {
-    Project.editProject(req.body.project_id,
+    if(req.body.status == null || undefined){
+        Project.editProject(req.body.project_id,
             req.body.project_name,
             req.body.project_des,
             req.user.users_id)
@@ -40,9 +41,21 @@ router.put('/editProject', auth, (req, res) => {
         .catch((err) => {
             res.send(err);
         })
+    }else{
+        Project.setProjectStatus(req.body.project_id,
+            req.body.status)
+        .then((data) => {
+            res.send(data);
+            console.log(data);
+        })
+        .catch((err) => {
+            res.send(err);
+        })
+    }
+    
 });
 
-router.put('/deleteProject', auth, (req, res) => {
+router.delete('/deleteProject', auth, (req, res) => {
     Project.editProject(req.body.project_id,
             req.user.users_id)
         .then((data) => {

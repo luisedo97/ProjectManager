@@ -8,12 +8,13 @@ let queries = {
         deleteProject: new PS('delete-projet',"DELETE PROJECTS WHERE project_id = $1 AND users_id = $2"),
         getListProject: new PS('get-project', "SELECT * FROM PROJECTS WHERE users_id = $1"),
         newItem: new PS('new-item', "INSERT INTO PROJECT_ITEM (project_item_name, project_item_description, status_id, project_id) VALUES ($1, $2, 3, $3)"),
-        getItem: new PS('get-item', "SELECT * FROM PROJECT_ITEM WHERE project_id = $2"),
+        getListItem: new PS('get-item', "SELECT * FROM PROJECT_ITEM WHERE project_id = $1"),
         addData: new PS('add-data', "INSERT INTO ITEM_CONTENT (project_item_id, item_content_url, item_content_description) VALUES ($1, $2, $3)"),
         getData: new PS('get-data', "SELECT * FROM ITEM_CONTENT WHERE project_item_id = $1"),
         deleteData: new PS('delete-data', "DELETE FROM ITEM_CONTENT WHERE item_content_id = $1 AND project_item_id = $2"),
-        setProjectStatus: new PS('set-project-status', "UPDATE PROJECTS SET status_id = $1 WHERE project_id = $2 AND status_id = $3"),
-        setItemStatus: new PS('set-item-status', "UPDATE PROJECT_ITEM SET status_id = $1 WHERE project_item_id = $2 AND status_id = $3")
+        setProjectStatus: new PS('set-project-status', "UPDATE PROJECTS SET status_id = $1 WHERE project_id = $2"),
+        setItemStatus: new PS('set-item-status', "UPDATE PROJECT_ITEM SET status_id = $1 WHERE project_item_id = $2"),
+        editItemData: new PS('edit-item',"UPDATE PROJECT_ITEM SET project_item_name = $1, project_item_description = $2 WHERE project_item_id = $3") 
     },
     user: {
         actions: {

@@ -27,7 +27,7 @@ module.exports.createProject = (userId, name, description) => {
 module.exports.getListProject = (userId) => {
     return new Promise((res, rej) => {
         db.connect().then((obj) => {
-            obj.one(sql.general.getListProject, [userId])
+            obj.any(sql.general.getListProject, [userId])
                 .then((data) => {
                     res({
                         message: "Get list project sucefully",
@@ -82,6 +82,31 @@ module.exports.deleteProject = (projectId,userId) => {
                 .then(() => {
                     res({
                         message: "Delete project sucefully",
+                        status: 200,
+                    });
+                    obj.done();
+                }).catch((error) => {
+                    rej({
+                        error: error,
+                        msg: 'Error',
+                        status: 500
+                    });
+                    obj.done();
+                });
+        }).catch((error) => {
+            console.log(error);
+            rej(error);
+        });;
+    });
+};
+
+module.exports.setProjectStatus = (projectId,status) => {
+    return new Promise((res, rej) => {
+        db.connect().then((obj) => {
+            obj.none(sql.general.setProjectStatus, [projectId,status])
+                .then(() => {
+                    res({
+                        message: "Update project sucefully",
                         status: 200,
                     });
                     obj.done();
