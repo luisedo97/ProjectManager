@@ -1,12 +1,19 @@
 const multer = require('multer');
 var fs = require('fs');
+const content = require('./contents');
 let storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        let dir = `./public/uploads/${req.user.users_id}/${req.params.projectId}/${req.params.itemId}`;
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir);
-        }
-        cb(null, dir);
+        content.getProjectId(req.params.itemId)
+            .then((data) => {
+                let id = data.project_id;
+                let dir = `./public/uploads/${req.user.users_id}/${id}/${req.params.itemId}`;
+
+                if (!fs.existsSync(dir)) {
+                    fs.mkdirSync(dir);
+                }
+                cb(null, dir);
+            })
+            .catch((err) => { console.log(err) });
     },
     filename: function(req, file, cb) {
         cb(null, `${file.originalname}`)
