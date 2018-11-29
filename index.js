@@ -5,6 +5,7 @@ const jwt = require('express-jwt');
 const config = require('./helpers/config');
 let passport = require('passport');
 let strategies = require('./helpers/strategies');
+let auth = require('./middlewares/isAuth');
 
 app.use('/views', express.static(__dirname + '/public'));
 app.use(express.json());
@@ -20,14 +21,7 @@ app.use('/', require('./controllers'));
 app.get('/', function(req, res) {
     res.redirect('views/index.html');
 });
-app.use(function(err, req, res, next) {
-    if (err.name === 'UnauthorizedError') {
-        res.status(401).send({
-            message: 'invalid token...',
-            status: 401
-        });
-    }
-});
+app.use(auth.isValidToken);
 passport.use(strategies.localStrategy);
 passport.use(strategies.jwtStrategy);
 passport.serializeUser(function(user, done) {

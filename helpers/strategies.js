@@ -8,7 +8,6 @@ module.exports.localStrategy = new localStrategy({
     usernameField: 'username',
     passwordField: 'password'
 }, function(username, password, done) {
-    console.log(username);
     User.getUserByUsername(username).then((user) => {
         if (user.error) {
             return done(null, false);
@@ -17,17 +16,14 @@ module.exports.localStrategy = new localStrategy({
             if (isMatch)
                 return done(null, user);
             else {
-                console.log("jwt yaaaaa");
                 return done(null, false);
             }
 
         }).catch((err) => {
-            console.log("me quiero morir");
             console.log(err);
             return done(null, false);
         });
     }).catch((err) => {
-        console.log("suuuuper morirme quiero");
         return done(null, false);
     });
 });
