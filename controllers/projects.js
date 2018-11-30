@@ -2,7 +2,7 @@ const express = require('express');
 let router = express.Router();
 const Project = require('../helpers/project');
 const auth = require('./../middlewares/jwtAuth');
-
+const util = require('../helpers/util');
 
 router.post('/createProject', auth, (req, res) => {
     Project.createProject(req.user.users_id,
@@ -10,7 +10,7 @@ router.post('/createProject', auth, (req, res) => {
             req.body.project_des)
         .then((data) => {
             res.send(data);
-            
+
         })
         .catch((err) => {
             res.send(err);
@@ -29,36 +29,38 @@ router.get('/getListProject', auth, (req, res) => {
 });
 
 router.put('/editProject', auth, (req, res) => {
-    if(req.body.status == null || undefined){
+    if (req.body.status == null || undefined) {
         Project.editProject(req.body.project_id,
-            req.body.project_name,
-            req.body.project_des,
-            req.user.users_id)
-        .then((data) => {
-            res.send(data);
-            console.log(data);
-        })
-        .catch((err) => {
-            res.send(err);
-        })
-    }else{
+                req.body.project_name,
+                req.body.project_des,
+                req.user.users_id)
+            .then((data) => {
+                res.send(data);
+                console.log(data);
+            })
+            .catch((err) => {
+                res.send(err);
+            })
+    } else {
         Project.setProjectStatus(req.body.project_id,
-            req.body.status)
-        .then((data) => {
-            res.send(data);
-            console.log(data);
-        })
-        .catch((err) => {
-            res.send(err);
-        })
+                req.body.status)
+            .then((data) => {
+                res.send(data);
+                console.log(data);
+            })
+            .catch((err) => {
+                res.send(err);
+            })
     }
-    
+
 });
 
 router.delete('/deleteProject', auth, (req, res) => {
-    Project.editProject(req.body.project_id,
+    Project.deleteProject(req.body.project_id,
             req.user.users_id)
         .then((data) => {
+            var path = `./public/uploads/${req.body.project_id}`
+                //util.destroyPath(path);
             res.send(data);
             console.log(data);
         })

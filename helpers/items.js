@@ -5,7 +5,7 @@ const sql = require('./queries.js');
 module.exports.createItem = (projectId, name, description) => {
     return new Promise((res, rej) => {
         db.connect().then((obj) => {
-            obj.none(sql.general.newItem, [name,description,projectId])
+            obj.none(sql.general.newItem, [name, description, projectId])
                 .then(() => {
                     res({
                         message: "OK. item created",
@@ -32,7 +32,7 @@ module.exports.getListItem = (projectId) => {
                     res({
                         message: "Get list item sucefully",
                         status: 200,
-                        data:data
+                        data: data
                     });
                     obj.done();
                 }).catch((error) => {
@@ -53,7 +53,7 @@ module.exports.getListItem = (projectId) => {
 module.exports.editItem = (itemId, name, description) => {
     return new Promise((res, rej) => {
         db.connect().then((obj) => {
-            obj.none(sql.general.editItemData, [name,description,itemId])
+            obj.none(sql.general.editItemData, [name, description, itemId])
                 .then(() => {
                     res({
                         message: "Update item sucefully",
@@ -75,13 +75,13 @@ module.exports.editItem = (itemId, name, description) => {
     });
 };
 
-module.exports.deleteItem = (itemId,userId) => {
+module.exports.deleteItem = (itemId, projectId) => {
     return new Promise((res, rej) => {
         db.connect().then((obj) => {
-            obj.none(sql.general.deleteitem, [itemId,userId])
+            obj.none(sql.general.deleteItem, [itemId, projectId])
                 .then(() => {
                     res({
-                        message: "Delete item sucefully",
+                        message: "Delete item succesfully",
                         status: 200,
                     });
                     obj.done();
@@ -100,10 +100,10 @@ module.exports.deleteItem = (itemId,userId) => {
     });
 };
 
-module.exports.setItemStatus = (itemId,status) => {
+module.exports.setItemStatus = (itemId, status) => {
     return new Promise((res, rej) => {
         db.connect().then((obj) => {
-            obj.none(sql.general.setItemStatus, [status,itemId])
+            obj.none(sql.general.setItemStatus, [status, itemId])
                 .then(() => {
                     res({
                         message: "Change item status sucefully",
@@ -124,4 +124,3 @@ module.exports.setItemStatus = (itemId,status) => {
         });;
     });
 };
-
