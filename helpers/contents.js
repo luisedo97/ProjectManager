@@ -54,28 +54,6 @@ module.exports.addItemContent = (itemId, contentUrl, contentDesc) => {
     });
 };
 
-module.exports.getProjectId = (itemId) => {
-    return new Promise((res, rej) => {
-        db.connect().then((obj) => {
-            obj.one(sql.general.getProjectId, [itemId])
-                .then((data) => {
-                    res(data);
-                    obj.done();
-                }).catch((error) => {
-                    rej({
-                        error: error,
-                        msg: 'Error',
-                        status: 500
-                    });
-                    obj.done();
-                });
-        }).catch((error) => {
-            console.log(error);
-            rej(error);
-        });;
-    });
-};
-
 module.exports.deleteContent = (contentId) => {
     return new Promise((res, rej) => {
         db.connect().then((obj) => {
