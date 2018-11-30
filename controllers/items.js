@@ -21,7 +21,6 @@ router.get('/getListItem', auth, (req, res) => {
     items.getListItem(req.query.project_id)
         .then((data) => {
             res.send(data);
-            console.log(data);
         })
         .catch((err) => {
             res.send(err);
@@ -35,7 +34,6 @@ router.put('/editItem', auth, (req, res) => {
                 req.body.items_des)
             .then((data) => {
                 res.send(data);
-                console.log(data);
             })
             .catch((err) => {
                 res.send(err);

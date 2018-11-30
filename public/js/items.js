@@ -57,6 +57,9 @@ window.onload = function() {
                 location.href = "dashboard.html";
             }
         });
+
+        //Cambiar para el admin
+        $("project_id_delegado").value = getIdProject();
     }    
 }
 
@@ -111,7 +114,9 @@ function getContent(id){
             });*/
             $('item-'+id).innerHTML += "<br><br>" +
             '<a href="#modal-content" class="modal-trigger waves-effect waves-light btn white black-text" id="btn-new" onclick="assignId('+id+')">Add content</a>'+
-            '<a class="waves-effect waves-light btn white black-text" onclick="changeStatus('+id+','+1+')">Finish</a>';
+            '<a class="waves-effect waves-light btn white black-text" onclick="changeStatus('+id+','+1+')">Finish</a>'+
+            '<a class="waves-effect waves-light btn white black-text" onclick="editItem('+id+')">Edit</a>'+
+            '<a class="waves-effect waves-light btn white black-text" onclick="deleteItem('+id+')">Delete</a>';
         } else{
             alert(data.message+" Error:"+data.status);
             location.href = "dashboard.html";
@@ -123,11 +128,35 @@ function assignId(id){
     $('id_item_modal').value = id;    
 }
 
+function deleteItem(id){
+    let body={
+        items_id: id,
+    },
+        params={
+                method: "DELETE", 
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                    "Authorization":"Bearer "+sessionStorage.getItem("token")
+                }), 
+                body:JSON.stringify(body)
+    };
+    fetch("./../item/deleteItem", params)
+    .then(resp => resp.json())
+    .then(data => {
+        console.log(data);
+        if (data.status==200){
+            location.reload();
+        }else{
+            alert("Error al iniciar sesion, status:"+data.status);
+        }
+    });
+}
+
 function addContent(){
     var url = "./../content/upload/"+$('id_item_modal').value;
     console.log(url);
     var formData = new FormData();
-    formData.append('file', $("file").file);
+    formData.append('file', $("file").files[0]);
     formData.append('contentDesc', $('des_item').value);
     console.log(formData);
     fetch(url, {
@@ -205,5 +234,10 @@ function createItem(){
     });
 }
 
+function delegation(){
+    //Haz lo que te de la gana
+}
+
+$('modaldelegation').addEventListener('click',delegation);
 $('modalbtn').addEventListener('click',createItem);
 $('modalcontent').addEventListener('click',addContent);

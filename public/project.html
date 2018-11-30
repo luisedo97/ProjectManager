@@ -96,9 +96,57 @@
         </div>
     </div>
 
+    <div id="modal_delegation" class="modal black-text">
+            <div class="modal-content">
+                <h4 class="center">Delegar esta wea</h4>
+                <div class="row">
+                    <form>
+                        <div class="input-field col s3">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input disabled placeholder="Id Item" id="project_id_delegado" type="text" class="validate black-text">
+                        </div>
+                        <div class="input-field col s9">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input placeholder="User" id="user_delegado" type="text" class="validate black-text">
+                        </div>                  
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a id="modaldelegation" href="#!" class="modal-close waves-effect waves-green btn-flat black white-text">Delegar</a>
+            </div>
+        </div>
+
+
+
+
+    <div id="btn_edit" class="fixed-action-btn white-text">
+        <a class="btn-floating btn-large black">
+            <i class="large material-icons">mode_edit</i>
+        </a>
+        <ul>
+            <li><a href="#modal_delegation" class="btn-floating black tooltipped modal-trigger" data-position="left" data-tooltip="Delegar"><i class="material-icons">file_upload</i></a></li>
+            <li><a href="#modal_edit" class="btn-floating black tooltipped modal-trigger" data-position="left" data-tooltip="Editar Proyecto"><i class="material-icons">build</i></a></li>
+            <li><a id="deletebtn" class="btn-floating black tooltipped" data-position="left" data-tooltip="Eliminar Manga"><i class="material-icons">cancel</i></a></li>
+        </ul>
+    </div>
+                
+
+
+
 
     <script src="js/items.js"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.tooltipped');
+            var instances = M.Tooltip.init(elems);
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.fixed-action-btn');
+            var instances = M.FloatingActionButton.init(elems);
+         });
+
         document.addEventListener('DOMContentLoaded', function() {
             var elems = document.querySelectorAll('.collapsible');
             var instances = M.Collapsible.init(elems);

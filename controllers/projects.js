@@ -21,7 +21,6 @@ router.get('/getListProject', auth, (req, res) => {
     Project.getListProject(req.user.users_id)
         .then((data) => {
             res.send(data);
-            console.log(data);
         })
         .catch((err) => {
             res.send(err);
