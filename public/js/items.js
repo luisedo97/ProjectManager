@@ -103,6 +103,52 @@ function getContent(id){
     .then(data => {
         console.log(data);
         if(data.status == 200 || data.status == 201){
+            data.data.forEach(element => {
+                $('item-'+id).innerHTML += ""+
+                '<span>'+element.item_content_description+'</span>'+
+                '<img src="'+element.item_content_url+'" class="responsive-img">';    
+            });
+
+            $('item-'+id).innerHTML += "<br><br>" +
+            '<a href="#modal-content" class="modal-trigger waves-effect waves-light btn white black-text" id="btn-new" onclick="assignIdAdd('+id+')">Add content</a>'+
+            '<a class="waves-effect waves-light btn white black-text" onclick="changeStatus('+id+','+1+')">Finish</a>'+
+            '<a href="#modal-edititem" class="modal-trigger waves-effect waves-light btn white black-text" onclick="assignIdEdit('+id+')">Edit</a>'+
+            '<a class="waves-effect waves-light btn white black-text" onclick="deleteItem('+id+')">Delete</a>';
+        } else{
+            alert(data.message+" Error:"+data.status);
+            location.href = "dashboard.html";
+        }
+    });
+}
+
+function assignIdAdd(id){
+    $('id_item_modal').value = id;    
+}
+
+function assignIdEdit(id){
+    $('id_item_edit').value = id;
+}
+
+function editItem(){
+    let body={
+        items_id: $('id_item_edit').value,
+        items_name: $('name_item_edit').value,
+        items_des: $('des_item_edit').value
+    },
+        config={
+                method: "PUT", 
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                    "Authorization":"Bearer "+sessionStorage.getItem("token")
+                }), 
+                body:JSON.stringify(body) 
+    };
+    
+    fetch('./../item/editItem', config)
+    .then(res => res.json())
+    .then(data => {
+        if(data.status == 200 || data.status == 201){
+            console.log(data);
             /*data.data.forEach(element => {
                 $('collapsible').innerHTML += ""+
                 '<li id='+element.project_item_id+' onclick="getContent('+element.project_item_id+')">'+
@@ -112,20 +158,12 @@ function getContent(id){
                 '</div>'+
                 '</li>';    
             });*/
-            $('item-'+id).innerHTML += "<br><br>" +
-            '<a href="#modal-content" class="modal-trigger waves-effect waves-light btn white black-text" id="btn-new" onclick="assignId('+id+')">Add content</a>'+
-            '<a class="waves-effect waves-light btn white black-text" onclick="changeStatus('+id+','+1+')">Finish</a>'+
-            '<a class="waves-effect waves-light btn white black-text" onclick="editItem('+id+')">Edit</a>'+
-            '<a class="waves-effect waves-light btn white black-text" onclick="deleteItem('+id+')">Delete</a>';
+            location.reload();
         } else{
             alert(data.message+" Error:"+data.status);
             location.href = "dashboard.html";
         }
     });
-}
-
-function assignId(id){
-    $('id_item_modal').value = id;    
 }
 
 function deleteItem(id){
@@ -170,6 +208,8 @@ function addContent(){
         .then(data => {
             console.log(data);
         });
+
+    changeStatus($('id_item_modal').value,2);
 }
 
 function changeStatus(id,status){
@@ -238,6 +278,7 @@ function delegation(){
     //Haz lo que te de la gana
 }
 
+$('modaledititembtn').addEventListener('click',editItem);
 $('modaldelegation').addEventListener('click',delegation);
 $('modalbtn').addEventListener('click',createItem);
 $('modalcontent').addEventListener('click',addContent);
