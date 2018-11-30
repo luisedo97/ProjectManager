@@ -5,8 +5,8 @@ const content = require('../helpers/contents');
 const util = require('../helpers/util');
 const auth = require('./../middlewares/jwtAuth');
 
-router.get('/getContent/:itemId', auth, (req, res) => {
-    content.getItemContent(req.params.itemId)
+router.get('/getContent', auth, (req, res) => {
+    content.getItemContent(req.query.item_id)
         .then((data) => {
             res.send(data);
         })

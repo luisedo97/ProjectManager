@@ -66,6 +66,37 @@
         </div>
     </div>
 
+    <div id="modal-content" class="modal black-text">
+        <div class="modal-content">
+            <h4 class="center">Create new Content</h4>
+            <div class="row">
+                <form>
+                    <div class="input-field col s3">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input disabled placeholder="Id Item" id="id_item_modal" type="text" class="validate black-text">
+                    </div>
+                    <div class="col s9 file-field input-field">
+                        <div class="btn">
+                            <span>File</span>
+                            <input id="file" type="file">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
+                    </div>
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">insert_emoticon</i>
+                        <textarea placeholder="Project Item" id="des_item" class="materialize-textarea"></textarea>
+                    </div>                       
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a id="modalcontent" href="#!" class="modal-close waves-effect waves-green btn-flat black white-text">Crear</a>
+        </div>
+    </div>
+
+
     <script src="js/items.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

@@ -98,6 +98,7 @@ function getContent(id){
     fetch('./../content/getContent?item_id='+id, config)
     .then(res => res.json())
     .then(data => {
+        console.log(data);
         if(data.status == 200 || data.status == 201){
             /*data.data.forEach(element => {
                 $('collapsible').innerHTML += ""+
@@ -109,9 +110,8 @@ function getContent(id){
                 '</li>';    
             });*/
             $('item-'+id).innerHTML += "<br><br>" +
-            '<a href="#modal1" class="modal-trigger waves-effect waves-light btn white black-text" id="btn-new">Add content</a>'+
+            '<a href="#modal-content" class="modal-trigger waves-effect waves-light btn white black-text" id="btn-new" onclick="assignId('+id+')">Add content</a>'+
             '<a class="waves-effect waves-light btn white black-text" onclick="changeStatus('+id+','+1+')">Finish</a>';
-
         } else{
             alert(data.message+" Error:"+data.status);
             location.href = "dashboard.html";
@@ -119,8 +119,28 @@ function getContent(id){
     });
 }
 
+function assignId(id){
+    $('id_item_modal').value = id;    
+}
+
 function addContent(){
-    
+    var url = "./../content/upload/"+$('id_item_modal').value;
+    console.log(url);
+    var formData = new FormData();
+    formData.append('file', $("file").file);
+    formData.append('contentDesc', $('des_item').value);
+    console.log(formData);
+    fetch(url, {
+            body: formData,
+            method: 'POST',
+            headers: new Headers({
+                "Authorization":"Bearer "+sessionStorage.getItem("token")
+            })
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            console.log(data);
+        });
 }
 
 function changeStatus(id,status){
@@ -151,6 +171,7 @@ function changeStatus(id,status){
                 '</div>'+
                 '</li>';    
             });*/
+            location.reload();
         } else{
             alert(data.message+" Error:"+data.status);
             location.href = "dashboard.html";
@@ -185,3 +206,4 @@ function createItem(){
 }
 
 $('modalbtn').addEventListener('click',createItem);
+$('modalcontent').addEventListener('click',addContent);
