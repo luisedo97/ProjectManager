@@ -6,5 +6,6 @@ router.use('/register', require('./register'));
 router.use('/content', require('./content'));
 router.use('/project', require('./projects'));
 router.use('/item', require('./items'));
+router.use('/search', require('./search'));
 
 module.exports = router;
