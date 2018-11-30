@@ -4,6 +4,7 @@ const auth = require('./../middlewares/jwtAuth');
 const delegate = require('../helpers/delegate');
 
 router.put('/give', auth, (req, res) => {
+    console.log(req.body.slaveUser);
     if (req.user.type_users_id == 1) {
         delegate.giveProject(req.body.slaveUser, req.body.projectId, req.user.users_id)
             .then((data) => {

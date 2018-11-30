@@ -1,5 +1,3 @@
-var buttons = document.getElementsByClassName('delegate');
-
 function $(id) {
     return document.getElementById(id);
 }
@@ -37,10 +35,6 @@ window.onload = function() {
                             '</div>' +
                             '</div>';
                     });
-                    /* if (sessionStorage.getItem('type') == 1) {
-                         $('row').innerHTML += "" +
-                             '<p id="' + element.project_id + '" class="waves-effect waves-light btn blue delegate">Delegar</p>'
-                     }*/
                 } else {
                     alert(data.message + " Error:" + data.status);
                     location.href = "dashboard.html";
@@ -49,49 +43,29 @@ window.onload = function() {
     }
 }
 
-function createProject(){
-    let body={
-        project_name:$('name_project').value,
-        project_des:$('des_project').value
-    },
-        params={
-                method: "POST", 
-                headers: new Headers({
-                    'Content-Type': 'application/json',
-                    "Authorization":"Bearer "+sessionStorage.getItem("token")
-                }), 
-                body:JSON.stringify(body)
-    };
-    fetch("./../project/createProject", params)
-    .then(resp => resp.json())
-    .then(data => {
-        console.log(data);
-        if (data.status==200){
-            location.reload();
-        }else{
-            alert("Error al iniciar sesion, status:"+data.status);
-        }
-    });
-}
-
-$('modalbtn').addEventListener('click',createProject);
-
-/*function delegar(e) {
-    let id = e.target.id;
-    let slaveUser = $('delegateInput').value;
+function createProject() {
     let body = {
-        slaveUser = slaveUser,
-        projectId = id
-    }
-    fetch('./../delegate/give', {
-            body: body,
-            method: 'PUT'
-        }).then(resp => resp.json())
-        .then((data) => {
+            project_name: $('name_project').value,
+            project_des: $('des_project').value
+        },
+        params = {
+            method: "POST",
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                "Authorization": "Bearer " + sessionStorage.getItem("token")
+            }),
+            body: JSON.stringify(body)
+        };
+    fetch("./../project/createProject", params)
+        .then(resp => resp.json())
+        .then(data => {
             console.log(data);
-        })
+            if (data.status == 200) {
+                location.reload();
+            } else {
+                alert("Error al iniciar sesion, status:" + data.status);
+            }
+        });
 }
 
-for (let i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener('click', delegar);
-}*/
+$('modalbtn').addEventListener('click', createProject);
