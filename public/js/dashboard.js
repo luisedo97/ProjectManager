@@ -42,3 +42,30 @@ window.onload = function() {
         });
     }    
 }
+
+function createProject(){
+    let body={
+        project_name:$('name_project').value,
+        project_des:$('des_project').value
+    },
+        params={
+                method: "POST", 
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                    "Authorization":"Bearer "+sessionStorage.getItem("token")
+                }), 
+                body:JSON.stringify(body)
+    };
+    fetch("./../project/createProject", params)
+    .then(resp => resp.json())
+    .then(data => {
+        console.log(data);
+        if (data.status==200){
+            location.reload();
+        }else{
+            alert("Error al iniciar sesion, status:"+data.status);
+        }
+    });
+}
+
+$('modalbtn').addEventListener('click',createProject);
