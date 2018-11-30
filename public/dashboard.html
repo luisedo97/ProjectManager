@@ -21,16 +21,8 @@
             </ul>
         </div>
     </nav>
-    <div class="carousel">
-        <div class="card grey darken-1 carousel-item">
-            <div class="card-content white-text">
-                <span class="card-title center">Card Title 1</span>
-            </div>
-            <div class="card-action center">
-                <br>
-                <a href="project.html" class="waves-effect waves-light btn lime">Acceder</a>
-            </div>
-        </div>  
+    <div id="row" class="row container">
+        
     </div>
     <div class="center">
         <a href="#modal1" class="modal-trigger waves-effect waves-light btn-large white black-text" id="btn-new">New Proyect</a>
@@ -59,21 +51,18 @@
     </div>
 
 
-
     
 
+    <script src="js/dashboard.js"></script>
+    
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.modal');
+            var instances = M.Modal.init(elems);
+        });
         
-        document.addEventListener('DOMContentLoaded', function() {
-            var elems = document.querySelectorAll('.carousel');
-            var instances = M.Carousel.init(elems,{numVisible:8});
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-                    var elems = document.querySelectorAll('.modal');
-                    var instances = M.Modal.init(elems);
-        });
     </script>
+    
 
 
 

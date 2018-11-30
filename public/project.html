@@ -17,7 +17,7 @@
         <div class="nav-wrapper">
             <a id="name-project" href="#" class="brand-logo center">Name project</a>
             <ul class="right hide-on-med-and-down">
-                <li ><a href="index.html"><i class="material-icons right">close</i>Log out</a></li>
+                <li><a href="index.html"><i class="material-icons right">close</i>Log out</a></li>
             </ul>
             <ul class="left hide-on-med-and-down">
                 <li><a href="dashboard.html"><i class="material-icons left">arrow_back</i>Dashboard</a></li>
@@ -27,9 +27,9 @@
 
     <br>
     <div class="container black black-text">
-        <ul class="collapsible">
-            <li>
-                <div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>
+        <ul id="collapsible" class="collapsible">
+                <!--
+                    <div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>
                 <div class="collapsible-body white-text">
                     <span><div class="20">Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus, repellendus numquam atque quaerat assumenda aliquam, tenetur voluptate nulla in enim repudiandae adipisci deleniti quae soluta tempora perferendis quod sit nisi.</div></span>
                     <h5>Anexo:</h5>
@@ -37,15 +37,7 @@
                     <a href="#modal1" class="modal-trigger waves-effect waves-light btn-large white black-text" id="btn-new">Add content</a>
                     <a href="#modal1" class="modal-trigger waves-effect waves-light btn-large white black-text" id="btn-new">Finish</a>
                 </div>
-            </li>
-            <li>
-                <div class="collapsible-header"><i class="material-icons">place</i>Second</div>
-                <div class="collapsible-body white-text"><span>Lorem ipsum dolor sit amet.</span></div>
-            </li>
-            <li>
-                <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
-                <div class="collapsible-body white-text"><span>Lorem ipsum dolor sit amet.</span></div>
-            </li>
+                -->
         </ul>
     </div>    
 
@@ -71,8 +63,8 @@
         </div>
     </div>
 
+    <script src="js/items.js"></script>
     <script>
-    
         document.addEventListener('DOMContentLoaded', function() {
             var elems = document.querySelectorAll('.collapsible');
             var instances = M.Collapsible.init(elems);
@@ -82,7 +74,6 @@
             var elems = document.querySelectorAll('.modal');
             var instances = M.Modal.init(elems);
         });
-
     </script>
 
 </body>

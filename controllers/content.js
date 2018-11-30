@@ -9,7 +9,7 @@ const content = require('../helpers/contents');
 });*/
 
 router.get('/getContent',(req,res)=>{
-    content.getItemContent(req.body.item_id)
+    content.getItemContent(req.query.item_id)
     .then((data) => {
         res.send(data);
     })
@@ -22,4 +22,5 @@ router.post('/upload', upload.single('file'), (req, res) => {
     console.log(req.file);
     res.send({ status: 200 });
 });
+
 module.exports = router;
