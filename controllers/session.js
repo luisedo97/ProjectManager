@@ -26,7 +26,12 @@ router.post('/login', function(req, res, next) {
             res.status(200).send({
                 status: 200,
                 message: 'Login Successful',
-                token: jsonWebToken
+                token: jsonWebToken,
+                user: {
+                    id: user.users_id,
+                    username: user.users_username,
+                    type: user.type_users_id
+                }
             });
         });
     })(req, res, next);

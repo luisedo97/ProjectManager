@@ -1,46 +1,52 @@
-function $(id){
+var buttons = document.getElementsByClassName('delegate');
+
+function $(id) {
     return document.getElementById(id);
 }
 
 window.onload = function() {
-    if(sessionStorage.getItem("token")==null||undefined){
+    if (sessionStorage.getItem("token") == null || undefined) {
         alert("NO TIENES SESSION!");
         location.href = "dashboard.html";
-    }else{
+    } else {
         let config = {
             method: "GET",
             withCredentials: true,
             credentials: 'same-origin',
             headers: {
                 "Content-type": "application/x-www-form-urlencoded",
-                "Authorization":"Bearer "+sessionStorage.getItem("token")
+                "Authorization": "Bearer " + sessionStorage.getItem("token")
             }
         };
-        
+
         fetch('./../project/getListProject', config)
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-            if(data.status == 200 || data.status == 201){
-                data.data.forEach(element => {
-                    $('row').innerHTML += ""+
-                        '<div class="card grey darken-1 carousel-item col s4">'+
-                            '<div class="card-content white-text">'+
-                                '<span class="card-title center">'+element.project_name+'</span>'+
-                                '<p class="center">'+element.project_description+'</p>'+
-                            '</div>'+
-                            '<div class="card-action center">'+
-                                '<br>'+
-                                '<a href="project.html?project_id='+element.project_id+'" class="waves-effect waves-light btn lime">Acceder</a>'+
-                            '</div>'+
-                        '</div>';    
-                });
-            } else{
-                alert(data.message+" Error:"+data.status);
-                location.href = "dashboard.html";
-            }
-        });
-    }    
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (data.status == 200 || data.status == 201) {
+                    data.data.forEach(element => {
+                        $('row').innerHTML += "" +
+                            '<div class="card grey darken-1 carousel-item col s4">' +
+                            '<div class="card-content white-text">' +
+                            '<span class="card-title center">' + element.project_name + '</span>' +
+                            '<p class="center">' + element.project_description + '</p>' +
+                            '</div>' +
+                            '<div class="card-action center">' +
+                            '<br>' +
+                            '<a href="project.html?project_id=' + element.project_id + '" class="waves-effect waves-light btn lime">Acceder</a>' +
+                            '</div>' +
+                            '</div>';
+                    });
+                    /* if (sessionStorage.getItem('type') == 1) {
+                         $('row').innerHTML += "" +
+                             '<p id="' + element.project_id + '" class="waves-effect waves-light btn blue delegate">Delegar</p>'
+                     }*/
+                } else {
+                    alert(data.message + " Error:" + data.status);
+                    location.href = "dashboard.html";
+                }
+            });
+    }
 }
 
 function createProject(){
@@ -69,3 +75,23 @@ function createProject(){
 }
 
 $('modalbtn').addEventListener('click',createProject);
+
+/*function delegar(e) {
+    let id = e.target.id;
+    let slaveUser = $('delegateInput').value;
+    let body = {
+        slaveUser = slaveUser,
+        projectId = id
+    }
+    fetch('./../delegate/give', {
+            body: body,
+            method: 'PUT'
+        }).then(resp => resp.json())
+        .then((data) => {
+            console.log(data);
+        })
+}
+
+for (let i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener('click', delegar);
+}*/
