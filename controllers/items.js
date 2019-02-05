@@ -49,7 +49,6 @@ router.put('/editItem', auth, (req, res) => {
                 res.send(err);
             })
     }
-
 });
 
 router.delete('/deleteItem', auth, (req, res) => {

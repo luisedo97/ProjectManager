@@ -46,6 +46,56 @@ module.exports.getProjectId = (itemId) => {
     });
 };
 
+module.exports.getProjectName = (projectId) => {
+    return new Promise((res, rej) => {
+        db.connect().then((obj) => {
+            obj.one(sql.general.getProjectName, [projectId])
+                .then((data) => {
+                    res(data);
+                    obj.done();
+                }).catch((error) => {
+                    rej({
+                        error: error,
+                        msg: 'Error',
+                        status: 500
+                    });
+                    obj.done();
+                });
+        }).catch((error) => {
+            console.log(error);
+            rej(error);
+        });;
+    });
+}
+
+module.exports.hasAccess = (projectId, user) => {
+    return new Promise((res, rej) => {
+        db.connect().then((obj) => {
+            obj.one(sql.general.regulateAccess, [projectId, user])
+                .then((data) => {
+                    if(data[0].project_id == null || undefined){
+                        res({
+                            status:401,
+                            msg:'forbidden'
+                        });
+                    }
+                    res(data);
+                    obj.done();
+                }).catch((error) => {
+                    rej({
+                        error: error,
+                        msg: 'Error',
+                        status: 500
+                    });
+                    obj.done();
+                });
+        }).catch((error) => {
+            console.log(error);
+            rej(error);
+        });;
+    });
+}
+
 module.exports.deleteFile = (filepath) => {
     fs.rmdirSync(filepath);
 };

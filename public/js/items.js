@@ -41,17 +41,35 @@ window.onload = function() {
             .then(data => {
                 console.log(data)
                 if (data.status == 200 || data.status == 201) {
+                    
+                    if((data.data[0].users_id != JSON.parse(sessionStorage.getItem("user")).id)){
+                        if(JSON.parse(sessionStorage.getItem("user")).type != 1){
+                            alert('Aqui no chiamo');
+                            location.href = 'dashboard.html';
+                        }
+                    }
+                    $('name-project').innerHTML = data.data[0].project_name;
+                    var statusProject = 1;
                     data.data.forEach(element => {
                         var status = getDataStatus(element.status_id);
-                        console.log(status);
+                        if(element.status_id!=1){
+                            statusProject = 2;
+                        }
                         $('collapsible').innerHTML += "" +
                             '<li id=' + element.project_item_id + ' onclick="getContent(' + element.project_item_id + ')">' +
                             '<div class="collapsible-header">' + element.project_item_name + '<span class="new badge ' + status.color + '" data-badge-caption="' + status.msg + '"></span></div>' +
                             '<div class="collapsible-body white-text" id="item-' + element.project_item_id + '">' +
-                            '<span>' + element.project_item_description + '</span>' +
+                            '<span>' + element.project_item_description + '</span><br>' +
                             '</div>' +
                             '</li>';
                     });
+                        
+                    console.log(statusProject);
+                    if(statusProject === 1){
+                        $('finishbtn').hidden = false;
+                        $('finishbtn1').addEventListener('click',changeStatusProject);
+                    }
+
                 } else {
                     alert(data.message + " Error:" + data.status);
                     location.href = "dashboard.html";
@@ -61,6 +79,33 @@ window.onload = function() {
         //Cambiar para el admin
         $("project_id_delegado").value = getIdProject();
     }
+}
+
+function changeStatusProject(){
+    let body = {
+        project_id: getIdProject(),
+        status: 1
+    },
+    config = {
+        method: "PUT",
+        headers: new Headers({
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer " + sessionStorage.getItem("token")
+        }),
+        body: JSON.stringify(body)
+    };
+
+    fetch('./../project/editProject', config)
+        .then(res => res.json())
+        .then(data => {
+        if (data.status == 200 || data.status == 201) {
+            console.log(data);
+            location.reload();
+        } else {
+            alert(data.message + " Error:" + data.status);
+            location.href = "dashboard.html";
+        }
+    });
 }
 
 function getDataStatus(status) {
@@ -192,11 +237,9 @@ function deleteItem(id){
 
 function addContent() {
     var url = "./../content/upload/" + $('id_item_modal').value;
-    console.log(url);
     var formData = new FormData();
     formData.append('file', $("file").files[0]);
-    formData.append('contentDesc', $('des_item').value);
-    console.log(formData);
+    formData.append('contentDesc', $('des_cont').value);
     fetch(url, {
             body: formData,
             method: 'POST',
@@ -301,6 +344,60 @@ function delegation() {
         })
 }
 
+function editProject(){
+    let body={
+        project_id: getIdProject(),
+        project_name: $('name_project_edit').value,
+        project_des: $('des_project_edit').value
+    },
+        config={
+                method: "PUT", 
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                    "Authorization":"Bearer "+sessionStorage.getItem("token")
+                }), 
+                body:JSON.stringify(body) 
+    };
+    
+    fetch('./../project/editProject', config)
+    .then(res => res.json())
+    .then(data => {
+        if(data.status == 200 || data.status == 201){
+            console.log(data);
+            location.reload();
+        } else{
+            alert(data.message+" Error:"+data.status);
+            location.href = "dashboard.html";
+        }
+    });
+}
+
+function deleteProject(){
+    let body={
+        project_id: getIdProject()
+    },
+        params={
+                method: "DELETE", 
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                    "Authorization":"Bearer "+sessionStorage.getItem("token")
+                }), 
+                body:JSON.stringify(body)
+    };
+    fetch("./../project/deleteProject", params)
+        .then(resp => resp.json())
+        .then(data => {
+            console.log(data);
+            if (data.status == 200) {
+                location.href = 'dashboard.html';
+            } else {
+                alert("Status:" + data.status);
+            }
+        });
+}
+
+$('deletebtn').addEventListener('click',deleteProject);
+$('modaleditprojectbtn').addEventListener('click',editProject);
 $('modaledititembtn').addEventListener('click',editItem);
 $('modaldelegation').addEventListener('click',delegation);
 $('modalbtn').addEventListener('click',createItem);

@@ -17,10 +17,9 @@ function requestData(id){
     .then(res => res.json())
     .then(data => {
         console.log(data);
-        if(data.length>0){
-            data.forEach(element => {
-                console.log(element);
-                //$("result").innerHTML += '<li><div class="collapsible-header">'+element.name+'</div><div class="collapsible-body"><span>'+element.synopsis+'</span><br><br><br><div><a href="manga.html?id='+element.id+'" class="secondary-content waves-effect waves-light btn-floating btn-large black"><i class="material-icons white-text">play_arrow</i></a></div></div></li>'
+        if(data.data.length>0){
+            data.data.forEach(element => {
+                $("result").innerHTML += '<li><div class="collapsible-header">'+element.project_name+'</div><div class="collapsible-body"><span>'+element.project_description+'</span><br><br><br><div><a href="project.html?project_id='+element.project_id+'" class="secondary-content waves-effect waves-light btn-floating btn-large black"><i class="material-icons white-text">play_arrow</i></a></div></div></li>'
             });
         }else{
             $("text-result").innerText = "No se han encontrado coincidencias"

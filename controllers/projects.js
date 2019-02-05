@@ -59,7 +59,7 @@ router.delete('/deleteProject', auth, (req, res) => {
             req.user.users_id)
         .then((data) => {
             var path = `./public/uploads/${req.body.project_id}`
-                //util.destroyPath(path);
+                util.destroyPath(path);
             res.send(data);
             console.log(data);
         })

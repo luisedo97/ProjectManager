@@ -16,7 +16,7 @@
     <nav class="black container">
         <div class="nav-wrapper">
             <a href="#" class="brand-logo center">List Project</a>
-            <form class="left hide-on-med-and-down" style="width:40%">
+            <form id="inputSearch" class="left hide-on-med-and-down" style="width:40%">
                     <div class="input-field">
                         <input id="search" placeholder="Search..." type="search" required>
                         <label class="label-icon" for="search"><i class="material-icons">search</i></label>
@@ -32,7 +32,7 @@
         
     </div>
     <div class="center">
-        <a href="#modal1" class="modal-trigger waves-effect waves-light btn-large white black-text" id="btn-new">New Proyect</a>
+        <a href="#modal1" class="modal-trigger waves-effect waves-light btn-large white black-text" id="btn-new">New Project</a>
     </div>
 
     <!--Modals-->
@@ -64,6 +64,11 @@
     <script src="js/search.js"></script>  
     
     <script>
+
+        if(JSON.parse(sessionStorage.getItem("user")).type === 2){
+            $('inputSearch').hidden = true;
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             var elems = document.querySelectorAll('.modal');
             var instances = M.Modal.init(elems);

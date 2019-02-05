@@ -91,6 +91,28 @@
         </div>
     </div>
 
+    <div id="modal-edit" class="modal black-text">
+        <div class="modal-content">
+            <h4 class="center">Edit Project</h4>
+            <div class="row">
+                <form>
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input placeholder="Name Item" id="name_project_edit" type="text" class="validate black-text">
+                    </div>
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">insert_emoticon</i>
+                        <textarea placeholder="Project Item" id="des_project_edit" class="materialize-textarea"></textarea>
+                    </div>                     
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a id="modaleditprojectbtn" href="#!" class="modal-close waves-effect waves-green btn-flat black white-text">Crear</a>
+        </div>
+    </div>
+
+
 
 
     <div id="modal-content" class="modal black-text">
@@ -152,9 +174,10 @@
             <i class="large material-icons">mode_edit</i>
         </a>
         <ul>
-            <li><a href="#modal_delegation" class="btn-floating black tooltipped modal-trigger" data-position="left" data-tooltip="Delegar"><i class="material-icons">file_upload</i></a></li>
-            <li><a href="#modal_edit" class="btn-floating black tooltipped modal-trigger" data-position="left" data-tooltip="Editar Proyecto"><i class="material-icons">build</i></a></li>
-            <li><a id="deletebtn" class="btn-floating black tooltipped" data-position="left" data-tooltip="Eliminar Manga"><i class="material-icons">cancel</i></a></li>
+            <li hidden id="finishbtn"><a id="finishbtn1" class="btn-floating black tooltipped" data-position="left" data-tooltip="Finalizar"><i class="material-icons">cancel</i></a></li>
+            <li id="delegationbtn"><a href="#modal_delegation" class="btn-floating black tooltipped modal-trigger" data-position="left" data-tooltip="Delegar"><i class="material-icons">file_upload</i></a></li>
+            <li><a href="#modal-edit" class="btn-floating black tooltipped modal-trigger" data-position="left" data-tooltip="Update Project"><i class="material-icons">build</i></a></li>
+            <li><a id="deletebtn" class="btn-floating black tooltipped" data-position="left" data-tooltip="Delete Project"><i class="material-icons">cancel</i></a></li>
         </ul>
     </div>
                 
@@ -164,6 +187,12 @@
 
     <script src="js/items.js"></script>
     <script>
+
+
+        if(JSON.parse(sessionStorage.getItem("user")).type === 2){
+            $('delegationbtn').hidden = true;
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             var elems = document.querySelectorAll('.tooltipped');
             var instances = M.Tooltip.init(elems);
